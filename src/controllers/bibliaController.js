@@ -41,5 +41,23 @@ const getVersiculo = async (idBook, chapter, verse) => {
       throw new Error('Error al obtener versículos entre los valores dados');
     }
   };
+
+  const getVersesByBookAndChapter = async (idBook, chapter) => {
+    try {
+      const connection = await db.getConnection();
+      const [results] = await connection.query(
+        "SELECT * FROM bible_verses WHERE idBook = ? AND chapter = ? ",
+        [idBook, chapter,]
+      );
+      connection.release();
+      return results; 
+    } catch (error) {
+      console.error(
+        "Error al obtener versículos entre los valores dados:",
+        error
+      );
+      throw new Error("Error al obtener versículos entre los valores dados");
+    }
+  };
   
-export { getData, getVersiculo, getVersesBetween };
+export { getData, getVersiculo, getVersesBetween, getVersesByBookAndChapter };
